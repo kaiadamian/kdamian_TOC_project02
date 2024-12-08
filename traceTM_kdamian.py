@@ -89,7 +89,6 @@ def create_tree(transitions: Dict[str, List[str]], configurations: List[List[str
     for config in configurations:                           # find the total number of configurations
         n_configs += len(config)
 
-    print()
     print('-------------------------------------------')
     print('machine information:')
     print('-------------------------------------------')
@@ -155,8 +154,8 @@ def help(file: str, input: str, max_depth: int) -> None:
 
 def main() -> None:
     '''main function'''
-    file = "abc_star_DTM.csv"                               # set default parameters
-    input = "bbcc"
+    file = "check_equal_abs-kdamian.csv"                               # set default parameters
+    input = "abab"
     max_depth = 50
 
     if len(sys.argv) == 4:                                  # ERROR CHECK: ensure user inputted at least the file name

@@ -1,0 +1,27 @@
+equal abs NTM
+q0,q1,q2,q3,q4,q5,qacc,qrej
+a,b
+a,b,_
+q0
+qacc
+qrej
+q0,_,qacc,_,R
+q0,a,q1,_,R
+q0,b,q2,_,R
+q1,a,q1,a,R
+q1,b,q3,x,L
+q1,x,q1,x,R
+q2,a,q3,x,L
+q2,b,q2,b,R
+q2,x,q2,x,R
+q3,a,q3,a,L
+q3,b,q3,b,L
+q3,x,q3,x,L
+q3,_,q4,_,R
+q3,_,q5,_,R
+q4,a,q1,x,R
+q4,b,q2,x,R
+q4,x,q4,x,R
+q4,_,q3,_,L
+q5,x,q5,x,R
+q5,_,qacc,_,R

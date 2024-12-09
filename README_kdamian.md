@@ -31,41 +31,13 @@ I have four small functions that aid in the execution of my create_tree function
 13. Detailed discussion of results:
 (Lengthy discussion on how I knew my program was correct in #11 and #12).
 The table (plots_test_NTMtracings_kdamian.png) includes the TM name, input string, result, depth, number of configurations, average nondeterminism (# transitions / # nonleaves), and comments for multiple runs of my program on different turing machines. For the first three rows of the table, which display the data from a DTM test case, the average nondeterminism is 1.0, which makes sense since the number of nonleaves should equal the number of transitions in a deterministic turing machine. Next, for the a plus NTM, we see that  the level of nondeterminism increased even though the input strings are the same. This is because, since the machine is nondeterministic, q1 has two options of where to go if it reads an a. Since my program follows both paths, the number of transitions increases and therefore the average nondeterminism is greater than 1. Next, for the abc star NTM, we see that the average nondeterminism is much higher again. This is because, for every state, for each input read, there is almost always at least three different choices of possible execution paths. Since my program follows all the paths, the number of transitions increases and therefore the average nondeterminism greatly increases. We see this same pattern follow for the next two machines, with the average nondeterminism increasing with the number of possible transitions for each state on a given input.
+The output is divided into machine information, info on the tree of configurations, the path of configurations to accept state, and the tree of configurations. The tree of configurations can be read as each line represents a new level of the tree, with each configuration separated by a ‘|’ and the configurations formatted as left of head string, state, head char and right of string.
 
-The output below is divided into machine information, info on the tree of configurations, the path of configurations to accept state, and the tree of configurations. The tree of configurations can be read as each line represents a new level of the tree, with each configuration separated by a ‘|’ and the configurations formatted as left of head string, state, head char and right of string.
--------------------------------------------
-machine information:
--------------------------------------------
-turing machine used: a plus (a^+) DTM
-input string used: a
-accept state: qacc
--------------------------------------------
-tree of configurations information:
--------------------------------------------
-depth: 2
-number of configurations explored: 3
-total transitions (execution time): 2
-total nonleaves: 2
-average nondeterminism: 1.0
-result: ACCEPTED in 2 transitions
--------------------------------------------
-path of configurations to accept state:
--------------------------------------------
-,q1,a
-a,q2,_
-a_,qacc,_
--------------------------------------------
-each configuration, beginning at the start:
--------------------------------------------
-,q1,a
-a,q2,_
-a_,qacc,_******
+15. How team was organized: As a single-person team, I had to complete everything required by the project, including writing the tracingNTM program, testing it on given test cases as well as writing my own, and generating and analyzing the required output.
 
-14. How team was organized: As a single-person team, I had to complete everything required by the project, including writing the tracingNTM program, testing it on given test cases as well as writing my own, and generating and analyzing the required output.
+16. What you might do differently if you did the project again: If I were to do the project again, I would improve by drawing out diagrams while writing functions, especially the go_right and go_left functions. I only started doing this towards the end of my code development, and it actually helped and sped up the process so much.
 
-15. What you might do differently if you did the project again: If I were to do the project again, I would improve by drawing out diagrams while writing functions, especially the go_right and go_left functions. I only started doing this towards the end of my code development, and it actually helped and sped up the process so much.
-
-16. Any additional material: The extra test cases I came up with were the a+b NTM as well as the equal a’s and b’s NTM. I verified these test cases manually by testing different inputs and checking the output, as well as drawing the state diagrams out so I could better visualize the machines.
+17. Any additional material: The extra test cases I came up with were the a+b NTM as well as the equal a’s and b’s NTM. I verified these test cases manually by testing different inputs and checking the output, as well as drawing the state diagrams out so I could better visualize the machines.
 
 
 

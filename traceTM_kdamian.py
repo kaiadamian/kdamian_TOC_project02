@@ -28,8 +28,6 @@ def create_tree(transitions: Dict[str, List[str]], configurations: List[List[str
     rejected = False
     tot_trans = 0
     tot_nonleaves = 0
-    state = configurations[level][0][1]
-    char = configurations[level][0][2][0]
     prevs = [[]]                                            # initialize list of previous configurations to be able to backtrack the accepting path
 
     while not accepted and not rejected:
@@ -46,8 +44,6 @@ def create_tree(transitions: Dict[str, List[str]], configurations: List[List[str
                     left_in = config[0]
                     if len(right_in) == 0:
                         right_in = "_"
-                    if len(left_in) == 0 and level != 0:
-                        left_in = "_"
                     if trans[1] == right_in[0]:             # if transition char matches the char we are reading, make the appropriate replacements and shifts
                         if trans[4] == 'R':
                             left_in, right_in = go_right(left_in, right_in, trans[3])
@@ -61,8 +57,6 @@ def create_tree(transitions: Dict[str, List[str]], configurations: List[List[str
             if n_trans == 0:                                # if there was no transition listed for our current configuration
                     if len(right_in) == 0:
                         right_in = "_"
-                    if len(left_in) == 0:
-                        left_in = "_"
                     replace = right_in[0]                   # shift right and reject
                     left_in, right_in = go_right(left_in, right_in, replace)   
                     n_trans += 1                            # increment the number of transitions
@@ -109,8 +103,8 @@ def create_tree(transitions: Dict[str, List[str]], configurations: List[List[str
         print('path of configurations to accept state:')
         print('-------------------------------------------')
         path_to_acc = tracing_tree(configurations, prevs, acc_state)
-        for config in path_to_acc:
-            print(','.join(x if x else '_' for x in config))
+        for index, config in enumerate(path_to_acc):
+            print(','.join(x if x else ('_' if index != 0 else '') for x in config))
     elif level < max_depth:
         print(f'result: REJECTED in {level} transitions')
     else: 
@@ -118,9 +112,9 @@ def create_tree(transitions: Dict[str, List[str]], configurations: List[List[str
     print('-------------------------------------------')
     print('each configuration, beginning at the start:')
     print('-------------------------------------------')
-    for lvl in configurations:
+    for index, lvl in enumerate(configurations):
         print(' | '.join(
-        ','.join(x if x else '_' for x in config)
+        ','.join(x if x else ('_' if index != 0 else '') for x in config)
         for config in lvl
     ))
     print()
@@ -154,11 +148,11 @@ def help(file: str, input: str, max_depth: int) -> None:
 
 def main() -> None:
     '''main function'''
-    file = "check_equal_abs-kdamian.csv"                               # set default parameters
-    input = "abab"
+    file = "check_equal_abs-kdamian.csv"                       # set default parameters
+    input = "aab"
     max_depth = 50
 
-    if len(sys.argv) == 4:                                  # ERROR CHECK: ensure user inputted at least the file name
+    if len(sys.argv) == 4:                                  # ERROR CHECK: check if the user inputted the filename, input, and max depth
         file = sys.argv[1]                                  # initialize file name
         if not os.path.isfile(file):                        # ERROR CHECK: ensure user inputted a valid file
             print(f'the file "{file}" is invalid')
@@ -174,7 +168,6 @@ def main() -> None:
     elif len(sys.argv) != 1:
         help(file, input, max_depth)
     
-
     transitions = {}                                        # initialize transitions dict with states as keys and their corresponding configurations as values
 
     with open(file, mode = 'r') as file:
@@ -193,10 +186,10 @@ def main() -> None:
             elif count >= 7:
                 transitions.setdefault(line[0], []).append(line)
 
-    for char in input:                                      # ERROR CHECK: ensure user used valid input alphabet for machine given
+    for char in input:                                      # ERROR CHECK: ensure user used valid input alphabet for machine given, _ represents empty string
         if char not in input_alpha and char != '_':
-            print(f'STRING REJECTED: invalid char "{char}" in input for machine {machine_name}')
-            return
+            print(f'warning: invalid char "{char}" in input for machine {machine_name}')
+            print()
             
     configurations = []                                     # initialize configurations, which will end up being a list of lists (for each level) of lists (for each configuration)
     configurations.append([["", start_state, input]])       # initialize the starting configuration in the configurations list

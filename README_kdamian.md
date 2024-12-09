@@ -1,1 +1,81 @@
 # kdamian_TOC_project02
+Project 2 Readme Team kdamian
+1. Team Name: kdamian
+2. Team members names and netids: Kaia Damian, netid: kdamian
+3. Overall project attempted, with sub-projects: Program 1: Tracing NTM Behavior
+4. Overall success of the project: Successful - code works and data collection and analysis were completed and made sense.
+5. Approximately total time (in hours) to complete: 15 hours
+6. Link to github repository: https://github.com/kaiadamian/kdamian_TOC_project02.git
+
+7. List of included files (if you have many files of a certain type, such as test files of different sizes, list just the folder): (Add more rows as necessary). Add more rows as necessary.
+Code Files: traceTM_kdamian.py (Holds “Tracing NTM Behavior” program.)
+Test Files: check_a_plus_DTM-kdamian.csv (.csv file that describes an a+ DTM. I used this test case file to ensure I was calculating avg. nondeterminism correctly.)
+            check_a_plus-kdamian.csv (.csv file that describes an a+ NTM. I used this test case file to test that I was creating the tree of configurations correctly, and to produce the required output.)
+            check_abc_star-kdamian.csv (.csv file that describes an a*b*c* NTM. I used this test case file to test that I was creating the tree of configurations correctly, and to produce the required output.)
+            check_aplusb-kdamian.csv (.csv file that describes an a+b NTM. I used this test case file to test that I was creating the tree of configurations correctly, and to produce the required output.)
+            check_equal_abs-kdamian.csv (.csv file that describes an NTM with equal as and bs. I used this test case file to test that I was creating the tree of configurations correctly, and to produce the required output.)
+Output Files: output_test_NTMtracings_kdamian.txt (Contains the output for multiple runs of my program on different TMs. Includes machine information and tree of configurations information.)
+Plots (as needed): plots_test_NTMtracings_kdamian.png (Contains data for multiple runs of my program in a table including the columns that Kogge mentioned: (NTM used, string used, result, depth of tree, number of configurations explored, average nondeterminism, comments).)
+
+8. Programming languages used, and associated libraries: Used Python language; invoked sys, csv, os, and typing libraries.
+
+9. Key data structures (for each sub-project): For this project, I had three key data structures. First, I had a dictionary of transitions called “transitions,” with each state name as a key and a list of its corresponding configurations as its value. Second, I had the tree of configurations called “configurations,” of the form List[List[str]], where the outer list is a list of each level of the tree, each level of the tree is a list of possible configurations, and each configuration is a list of strings. Third, I had a list of previous configurations called “prevs,” which contains the corresponding previous configuration to each configuration in “configurations.”
+
+10. General operation of code (for each subproject): First, I read in the filename, input string, and max depth if the user inputted them. Otherwise, I have set defaults for all three. Then, I read in the .csv file, obtaining the machine name, input alphabet, start state, accept state, reject state, and initialize the transitions dictionary. Then, I append a list of just the starting configuration to the “configurations” list. Then, I call my create_tree function. Within this function, I complete the “configurations” list, which traces the given NTM. I have lists called “level_list” and “prev_list” in which I accumulate all of the configurations and previous configurations for an entire level. First, I enter a while loop that continues running until either one configuration accepts or all remaining configurations reject. Within this while loop, I enter a for loop that goes through every configuration at the current level. I first obtain the current state of the configuration, skip if that state is a reject state, then go through every transition for that state in the “transitions” dictionary. If I find a transition that corresponds to the current state and head char, I check which way the tape is going to shift and then invoke the appropriate go_right or go_left function. Then, I increment the “number of transitions,” append the previous configuration to the “prev_list” list, and append the configuration after making the appropriate transition to the “level_list” list. After the for loop, if no transition was found, I append the previous configuration to the “prev_list” list and append a rejecting configuration (which shifts right by default) to the “level_list” list. Finally, as long as the state is not a reject state, I increment the total nonleaves and the total number of transitions, the latter by the “number of transitions” mentioned earlier. Then, at the end of the level, I append “prev_list” to “prevs” and “level_list” to “configurations.” Now, I check if any states in the level I just appended were accept states, or if all of them were reject states. If either of those are true, the appropriate flags are changed and the while loop is exited. Then, I obtain the number of configurations in the “configurations” list and then output the required data (as described in the “Output Files” section of #7) to the terminal. To calculate average nondeterminism, I divided the total transitions by the total nonleaves.
+I have four small functions that aid in the execution of my create_tree function. I have go_right and go_left functions that change the strings to the left and right of the tape head based on a right or left transition, respectively. I have a help function that prints out the appropriate usage of the program, which is ./traceTM_kdamian.py [filename] [max depth] [input]. The user should either input all three parameters or none at all (the defaults are printed out by the help function). Lastly, I have a tracing_tree function which is called when an accept state is reached in create_tree. In this function, it finds the accept state in the “configurations” list and then uses the “prevs” list to backtrack and find the exact path that led to the accept state. Then, create_tree prints out this path.
+
+11. What test cases you used/added, why you used them, what did they tell you about the correctness of your code:  I tested my program using test cases available in the “NTM test files” google drive (a plus DTM, a plus NTM, and a*b*c* NTM) as well as test cases I created myself (a+b NTM, equal as and bs NTM). I used these test cases to generate the required output (tree of configurations, path to accepting configuration, and table of data as described in the “plots” section of #7). I used these test cases specifically because I wanted a wide range of machines to test my program on. I mainly used the DTM test case to verify that my average nondeterminism was 1.0 for deterministic test cases. Once I verified that my program was providing the correct output for the DTM test cases as well as matching Professor Kogge’s example output for the NTM, I worked in creating my own test cases (a+b NTM, equal as and bs NTM), manually evaluating the tree of configurations, and verifying my output. I also used the test cases available in the “NTM test files” google drive (a plus DTM, a plus NTM, and a*b*c* NTM) to further verify the correctness of my output. After verifying using these test cases countless times, I was confident that my NTM tracing program was working correctly.
+    
+12. How you managed the code development: I started off this project by first setting up my main function and reading in the csv. Then, I worked to understand what the project was really asking me to do. Once I had a good understanding of this, I started working on the create_tree file. I first tested this on the a+ NTM that Professor Kogge gives as an example in the project description. Once my output for the tree configuration matched his, I wrote the tracing_tree function that traces the path to the accepting configuration. Then, I tested my code using several different test cases, as described in #11, verifying all of my output.
+
+13. Detailed discussion of results:
+(Lengthy discussion on how I knew my program was correct in #11 and #12).
+The table (plots_test_NTMtracings_kdamian.png) includes the TM name, input string, result, depth, number of configurations, average nondeterminism (# transitions / # nonleaves), and comments for multiple runs of my program on different turing machines. For the first three rows of the table, which display the data from a DTM test case, the average nondeterminism is 1.0, which makes sense since the number of nonleaves should equal the number of transitions in a deterministic turing machine. Next, for the a plus NTM, we see that  the level of nondeterminism increased even though the input strings are the same. This is because, since the machine is nondeterministic, q1 has two options of where to go if it reads an a. Since my program follows both paths, the number of transitions increases and therefore the average nondeterminism is greater than 1. Next, for the abc star NTM, we see that the average nondeterminism is much higher again. This is because, for every state, for each input read, there is almost always at least three different choices of possible execution paths. Since my program follows all the paths, the number of transitions increases and therefore the average nondeterminism greatly increases. We see this same pattern follow for the next two machines, with the average nondeterminism increasing with the number of possible transitions for each state on a given input.
+
+The output below is divided into machine information, info on the tree of configurations, the path of configurations to accept state, and the tree of configurations. The tree of configurations can be read as each line represents a new level of the tree, with each configuration separated by a ‘|’ and the configurations formatted as left of head string, state, head char and right of string.
+-------------------------------------------
+machine information:
+-------------------------------------------
+turing machine used: a plus (a^+) DTM
+input string used: a
+accept state: qacc
+-------------------------------------------
+tree of configurations information:
+-------------------------------------------
+depth: 2
+number of configurations explored: 3
+total transitions (execution time): 2
+total nonleaves: 2
+average nondeterminism: 1.0
+result: ACCEPTED in 2 transitions
+-------------------------------------------
+path of configurations to accept state:
+-------------------------------------------
+,q1,a
+a,q2,_
+a_,qacc,_
+-------------------------------------------
+each configuration, beginning at the start:
+-------------------------------------------
+,q1,a
+a,q2,_
+a_,qacc,_******
+
+14. How team was organized: As a single-person team, I had to complete everything required by the project, including writing the tracingNTM program, testing it on given test cases as well as writing my own, and generating and analyzing the required output.
+
+15. What you might do differently if you did the project again: If I were to do the project again, I would improve by drawing out diagrams while writing functions, especially the go_right and go_left functions. I only started doing this towards the end of my code development, and it actually helped and sped up the process so much.
+
+16. Any additional material: The extra test cases I came up with were the a+b NTM as well as the equal a’s and b’s NTM. I verified these test cases manually by testing different inputs and checking the output, as well as drawing the state diagrams out so I could better visualize the machines.
+
+
+
+
+
+
+
+
+
+
+
+
+
